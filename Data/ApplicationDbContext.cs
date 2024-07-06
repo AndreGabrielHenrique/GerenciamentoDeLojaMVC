@@ -10,7 +10,7 @@ namespace GerenciamentoDeLojaMVC.Data
         {
         }
 
-        public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Produto> Produto { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
