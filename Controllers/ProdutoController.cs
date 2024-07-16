@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using GerenciamentoDeLojaMVC.Data;
 using GerenciamentoDeLojaMVC.Models;
-using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace GerenciamentoDeLojaMVC.Controllers
 {
     public class ProdutoController : Controller
     {
-       private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public ProdutoController(ApplicationDbContext context)
         {
@@ -18,7 +16,8 @@ namespace GerenciamentoDeLojaMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Produto.ToListAsync());
+            var produtos = await _context.Produto.ToListAsync();
+            return View(produtos);
         }
 
         public async Task<IActionResult> DetalhesDoProduto(int? id)
@@ -99,7 +98,7 @@ namespace GerenciamentoDeLojaMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(produto);            
+            return View(produto);
         }
 
         public async Task<IActionResult> ExcluirProduto(int? id)
@@ -118,16 +117,15 @@ namespace GerenciamentoDeLojaMVC.Controllers
             return View(produto);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmarExclusao(int id)
+        public async Task<IActionResult> ExcluirProdutoConfirmed(int id)
         {
             var produto = await _context.Produto.FindAsync(id);
             if (produto != null)
             {
                 _context.Produto.Remove(produto);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Produto excluído.";
             }
             return RedirectToAction(nameof(Index));
         }
