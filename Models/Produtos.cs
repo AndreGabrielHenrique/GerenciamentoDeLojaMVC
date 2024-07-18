@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GerenciamentoDeLojaMVC.Models
 {
-    public class Produto
+    public class Produtos
     {
         [Key]
         public int Id{get;set;}

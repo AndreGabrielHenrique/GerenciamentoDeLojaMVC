@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GerenciamentoDeLojaMVC.Controllers
 {
-    public class ProdutoController : Controller
+    public class ProdutosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProdutoController(ApplicationDbContext context)
+        public ProdutosController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            var produtos = await _context.Produto.ToListAsync();
+            var produtos = await _context.Produtos.ToListAsync();
             return View(produtos);
         }
 
@@ -27,7 +27,7 @@ namespace GerenciamentoDeLojaMVC.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produto.FirstOrDefaultAsync(m => m.Id == id);
+            var produto = await _context.Produtos.FirstOrDefaultAsync(m => m.Id == id);
             if (produto == null)
             {
                 return NotFound();
@@ -43,7 +43,7 @@ namespace GerenciamentoDeLojaMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CadastrarProduto(Produto produto)
+        public async Task<IActionResult> CadastrarProduto(Produtos produto)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace GerenciamentoDeLojaMVC.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produto.FindAsync(id);
+            var produto = await _context.Produtos.FindAsync(id);
             if (produto == null)
             {
                 return NotFound();
@@ -71,7 +71,7 @@ namespace GerenciamentoDeLojaMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditarProduto(int id, Produto produto)
+        public async Task<IActionResult> EditarProduto(int id, Produtos produto)
         {
             if (id != produto.Id)
             {
@@ -108,7 +108,7 @@ namespace GerenciamentoDeLojaMVC.Controllers
                 return NotFound();
             }
 
-            var produto = await _context.Produto.FirstOrDefaultAsync(m => m.Id == id);
+            var produto = await _context.Produtos.FirstOrDefaultAsync(m => m.Id == id);
             if (produto == null)
             {
                 return NotFound();
@@ -119,12 +119,12 @@ namespace GerenciamentoDeLojaMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExcluirProdutoConfirmed(int id)
+        public async Task<IActionResult> ConfirmarExclusao(int id)
         {
-            var produto = await _context.Produto.FindAsync(id);
+            var produto = await _context.Produtos.FindAsync(id);
             if (produto != null)
             {
-                _context.Produto.Remove(produto);
+                _context.Produtos.Remove(produto);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
@@ -132,7 +132,7 @@ namespace GerenciamentoDeLojaMVC.Controllers
 
         private bool ProdutoExistente(int id)
         {
-            return _context.Produto.Any(e => e.Id == id);
+            return _context.Produtos.Any(e => e.Id == id);
         }
     }
 }

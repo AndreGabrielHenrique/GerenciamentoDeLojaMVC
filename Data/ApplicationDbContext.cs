@@ -10,11 +10,11 @@ namespace GerenciamentoDeLojaMVC.Data
         {
         }
 
-        public DbSet<Produto> Produto { get; set; }
+        public DbSet<Produtos> Produtos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Produto>().HasKey(c => c.Id);
+            modelBuilder.Entity<Produtos>().HasKey(c => c.Id);
         }
     }
 }
